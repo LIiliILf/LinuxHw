@@ -1,0 +1,18 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.226.16”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  main.cpp
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(82,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(82,19): warning :    82 |         res = read(client_socket, &recv_msg, sizeof(MSG));
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(82,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(39,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(39,10): warning :    39 |     char buffer[50] = {0};
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(39,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(40,9): warning : variable ‘res’ set but not used [-Wunused-but-set-variable]
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(40,9): warning :    40 |     int res;
+F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\main.cpp(40,9): warning :       |         ^~~
+  正在链接对象
+  Linux_disk_net_client.vcxproj -> F:\linux_repo\Linux_disk_net_client\Linux_disk_net_client\bin\x64\Debug\Linux_disk_net_client.out

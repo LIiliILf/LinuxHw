@@ -1,0 +1,28 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.226.16”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  main.cpp
+F:\linux_repo\test\test\main.cpp(28,29): error : cannot convert ‘sockaddr_in*’ to ‘const sockaddr*’
+F:\linux_repo\test\test\main.cpp(28,29): error :    28 |     if (bind(server_socket, &server_addr, sizeof(server_addr)) < 0)
+F:\linux_repo\test\test\main.cpp(28,29): error :       |                             ^~~~~~~~~~~~
+F:\linux_repo\test\test\main.cpp(28,29): error :       |                             |
+F:\linux_repo\test\test\main.cpp(28,29): error :       |                             sockaddr_in*
+/usr/include/x86_64-linux-gnu/sys/socket.h(112,49): message : initializing argument 2 of ‘int bind(int, const sockaddr*, socklen_t)’
+/usr/include/x86_64-linux-gnu/sys/socket.h(112,49): message :   112 | extern int bind (int __fd, __CONST_SOCKADDR_ARG __addr, socklen_t __len)
+/usr/include/x86_64-linux-gnu/sys/socket.h(112,49): message :       |                                                 ^
+F:\linux_repo\test\test\main.cpp(46,5): error : ‘accept_socket’ was not declared in this scope
+F:\linux_repo\test\test\main.cpp(46,5): error :    46 |     accept_socket = accept(server_socket, NULL, NULL);
+F:\linux_repo\test\test\main.cpp(46,5): error :       |     ^~~~~~~~~~~~~
+F:\linux_repo\test\test\main.cpp(50,9): error : ‘res’ was not declared in this scope
+F:\linux_repo\test\test\main.cpp(50,9): error :    50 |         res = read(accpet_socket, buffer, sizeof(buffer));
+F:\linux_repo\test\test\main.cpp(50,9): error :       |         ^~~
+F:\linux_repo\test\test\main.cpp(50,20): error : ‘accpet_socket’ was not declared in this scope
+F:\linux_repo\test\test\main.cpp(50,20): error :    50 |         res = read(accpet_socket, buffer, sizeof(buffer));
+F:\linux_repo\test\test\main.cpp(50,20): error :       |                    ^~~~~~~~~~~~~
+F:\linux_repo\test\test\main.cpp(50,35): error : ‘buffer’ was not declared in this scope; did you mean ‘setbuffer’?
+F:\linux_repo\test\test\main.cpp(50,35): error :    50 |         res = read(accpet_socket, buffer, sizeof(buffer));
+F:\linux_repo\test\test\main.cpp(50,35): error :       |                                   ^~~~~~
+F:\linux_repo\test\test\main.cpp(50,35): error :       |                                   setbuffer
