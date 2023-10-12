@@ -5,23 +5,32 @@
   正在启动远程生成
   正在编译源:
   main.cpp
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(59,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(59,24): warning :    59 |             res = write(accept_socket, &info_msg, sizeof(MSG));   //把每个文件名拷贝到info_msg结构体中，通过套接字发送出去
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(59,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,19): warning :    85 |         res = read(acpt_socket, &recv_msg, sizeof(MSG));
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(76,10): warning : unused variable ‘buffer’ [-Wunused-variable]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(76,10): warning :    76 |     char buffer[50] = { 0 };
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(76,10): warning :       |          ^~~~~~
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,1): warning : no return statement in function returning non-void [-Wreturn-type]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,1): warning :   105 | }
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,1): warning :       | ^
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(111,10): warning : unused variable ‘buffer’ [-Wunused-variable]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(111,10): warning :   111 |     char buffer[50] = { 0 };
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(111,10): warning :       |          ^~~~~~
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(112,9): warning : unused variable ‘res’ [-Wunused-variable]
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(112,9): warning :   112 |     int res = 0;
-F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(112,9): warning :       |         ^~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(60,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(60,24): warning :    60 |             res = write(accept_socket, &info_msg, sizeof(MSG));   //把每个文件名拷贝到info_msg结构体中，通过套接字发送出去
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(60,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,23): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,23): warning :    85 |     while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0)// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(85,23): warning :       |                   ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(116,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(116,19): warning :   116 |         res = read(acpt_socket, &recv_msg, sizeof(MSG));
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(116,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(148,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(148,24): warning :   148 |             res = write(fd, recv_msg.buffer, recv_msg.bytes);
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(148,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(149,31): warning : comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(149,31): warning :   149 |             if(recv_msg.bytes < sizeof(recv_msg.buffer))
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(149,31): warning :       |                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,10): warning :   105 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(105,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(162,1): warning : no return statement in function returning non-void [-Wreturn-type]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(162,1): warning :   162 | }
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(162,1): warning :       | ^
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(166,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(166,10): warning :   166 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(166,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(167,9): warning : unused variable ‘res’ [-Wunused-variable]
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(167,9): warning :   167 |     int res = 0;
+F:\linux_repo\Linux_c_sample\Linux_c_sample\main.cpp(167,9): warning :       |         ^~~
   正在链接对象
   Linux_c_sample.vcxproj -> F:\linux_repo\Linux_c_sample\Linux_c_sample\bin\x64\Debug\Linux_c_sample.out

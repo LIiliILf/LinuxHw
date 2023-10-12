@@ -1,0 +1,12 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.85.16”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  main.cpp
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning :    51 |         res = read(accept_socket, buffer, sizeof(buffer));
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  正在链接对象
+  Linux_netdisk_server.vcxproj -> F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\bin\x64\Debug\Linux_netdisk_server.out

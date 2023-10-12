@@ -6,23 +6,24 @@
 #include <string.h>
 #include <pthread.h>
 #include <dirent.h> //opendir
-
-#include <sys/stat.h>
+#include <sys/stat.h>//open
 #include <fcntl.h>
 
 
 #define MSG_TYPE_LOGIN 0
 #define MSG_TYPE_FILENAME 1
 #define MSG_TYPE_DOWNLOAD 2
+#define MSG_TYPE_UPLOAD 3
+#define MSG_TYPE_UPLOAD_DATA 4
 
 //通讯协议的定制，两边要保持一致，拷贝过去
 typedef struct msg
 {
-    int type; //协议类型 0登录协议包； 1文件名传输包；
+    int type; //协议类型 0登录协议包； 1文件名传输包；2文件下载包
     int flag; //标志位
-    char buffer[128]; //存放除文件名之外的内容
+    char buffer[1024]; //存放除文件名之外的内容
     char fname[50]; //如果type是1，文件名传输包，那么fname里面就存放着文件名
-    //int bytes;  //这个字段用来记录传输文件时每个数据包实际的文件字节数
+    int bytes;  //这个字段用来记录传输文件时每个数据包实际的文件字节数
 }MSG; //这个结构体会根据业务需求的不断变化，添加新的字段
 
 //根据网盘客户端的业务需求，客户端想要查看服务器这边目录下的文件名信息。
@@ -66,6 +67,35 @@ void search_server_dir(int accept_socket)//把套接字作为参数传进来
     }
 }
 
+//0916_0953 这个函数通过打开服务器中的某个文件，并使用socket网络发送给客户端，先把文件定为 HiBurn.exe,根据实际情况我自己新建了test.txt
+void server_file_download(int accept_socket)
+{
+    MSG file_msg = { 0 };
+    int res = 0;
+    int fd;//文件描述符，linux系统下很重要的概念，linux认为所有设备都是文件，所有都通过文件描述符打开。文件的打开、对设备的读写
+    fd = open("/home/linux/1.txt",O_RDONLY);//man open
+    if (fd < 0) {
+        perror("file open error");
+        return;
+    }
+    file_msg.type = MSG_TYPE_DOWNLOAD;
+    strcpy(file_msg.fname,"1.txt");
+    //在读取文件并把文件传到客户端的时候，MSG结构体中的buffer就是存放文件的内容，但是一般来说文件都超过1024字节
+    //所以要发送多个包。而且这个MSG结构中type类型
+    while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0)// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
+    {
+        //res 是实际读取的文件字节数
+        file_msg.bytes = res;
+        write(accept_socket, &file_msg, sizeof(MSG));
+        if (res <= 0)
+        {
+            perror("server send file error");
+
+        }
+        memset(file_msg.buffer, 0, sizeof(file_msg.buffer));
+    }
+}
+
 //多客户端连接问题
 void* thread_fun(void* arg)
 {
@@ -73,6 +103,8 @@ void* thread_fun(void* arg)
     int acpt_socket = *((int*)arg); //强制转换成指针
     int res;
     char buffer[50] = { 0 };
+    char up_file_name[20] = { 0 };
+    int fd = -1;       //定义一个文件描述符
     MSG recv_msg = { 0 };   //从buffer缓冲区转换成结构体大小
     // 0916_0848 等到按查询文件的时候才 search 注释掉,如果在这里调用那么不输入1就直接打印出目录了
     //search_server_dir(acpt_socket);
@@ -92,12 +124,39 @@ void* thread_fun(void* arg)
             search_server_dir(acpt_socket);
             memset(&recv_msg, 0, sizeof(MSG));
         }
+        else if (recv_msg.type == MSG_TYPE_DOWNLOAD)
+        {
+            server_file_download(acpt_socket);
+            memset(&recv_msg, 0, sizeof(MSG));
+        }
+        else if (recv_msg.type == MSG_TYPE_UPLOAD)//准备接收客户端发来的文件数据
+        {
+            //要从数据包的文件名里面获取文件名信息，然后创建文件，放到默认创建的文件夹，在home目录下。
+            strcpy(up_file_name, recv_msg.fname);
+                //然后在home目录下创建文件
+            fd = open("/home/linux/css.txt", O_CREAT | O_WRONLY, 0666);
+            if (fd < 0)
+            {
+                perror("create file error");
+            }
+            //server_file_upload(acpt_socket);
+            memset(&recv_msg, 0, sizeof(MSG));
+        }
+        else if (recv_msg.type == MSG_TYPE_UPLOAD_DATA)
+        {
+            //从buffer里面写出来
+            res = write(fd, recv_msg.buffer, recv_msg.bytes);
+            if(recv_msg.bytes < sizeof(recv_msg.buffer))
+            {//说明这个部分数据是文件的最后一部分数据
+                printf("client up file ok\n");
+                close(fd);
+            }
+            memset(&recv_msg, 0, sizeof(MSG));
+        }
         //printf("client read %s\n", buffer); //0916 0903
         //write(acpt_socket, buffer, res);
         //memset(buffer, 0, sizeof(buffer));
         memset(&recv_msg, 0, sizeof(MSG));
-
-        
         //服务器收到客户端数据后，原封不动把数据再回发给客户端。
     }
 }

@@ -1,0 +1,15 @@
+﻿  正在验证源
+  正在将源远程复制到“192.168.85.16”
+  正在验证体系结构
+  正在验证体系结构
+  正在启动远程生成
+  正在编译源:
+  main.cpp
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning :    32 |         res = write(client_socket, buffer, sizeof(buffer));//把buffer里面所有的数据发送给服务器,用write往服务器发送数据。 man write
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning :       |               ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning :    35 |         res = read(client_socket, buffer, sizeof(buffer));
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  正在链接对象
+  Linux_netdisk_client.vcxproj -> F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\bin\x64\Debug\Linux_netdisk_client.out
