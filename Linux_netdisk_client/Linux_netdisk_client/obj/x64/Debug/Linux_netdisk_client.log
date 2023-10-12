@@ -5,11 +5,20 @@
   正在启动远程生成
   正在编译源:
   main.cpp
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning :    32 |         res = write(client_socket, buffer, sizeof(buffer));//把buffer里面所有的数据发送给服务器,用write往服务器发送数据。 man write
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(32,20): warning :       |               ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning :    35 |         res = read(client_socket, buffer, sizeof(buffer));
-F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(37,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(37,19): warning :    37 |         res = read(clinet_socket, &recv_msg, sizeof(MSG));        //用来接收服务器端发过来的数据
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(37,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,9): warning : variable ‘res’ set but not used [-Wunused-but-set-variable]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,9): warning :    35 |     int res;
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(35,9): warning :       |         ^~~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(72,20): warning : conversion from ‘int’ to ‘char’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(72,20): warning :    72 |         c = getchar(); //获取键盘输入
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(72,20): warning :       |             ~~~~~~~^~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(76,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(76,24): warning :    76 |             res = write(client_socket, &send_msg, sizeof(MSG));
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(76,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(47,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(47,10): warning :    47 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\main.cpp(47,10): warning :       |          ^~~~~~
   正在链接对象
   Linux_netdisk_client.vcxproj -> F:\linux_repo\Linux_netdisk_client\Linux_netdisk_client\bin\x64\Debug\Linux_netdisk_client.out

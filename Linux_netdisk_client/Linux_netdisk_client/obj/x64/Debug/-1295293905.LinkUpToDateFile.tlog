@@ -1,1 +1,1 @@
-g++ -o "/home/linux/projects/Linux_netdisk_client/bin/x64/Debug/Linux_netdisk_client.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /home/linux/projects/Linux_netdisk_client/obj/x64/Debug/main.o
+g++ -o "/home/linux/projects/Linux_netdisk_client/bin/x64/Debug/Linux_netdisk_client.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack -pthread /home/linux/projects/Linux_netdisk_client/obj/x64/Debug/main.o
