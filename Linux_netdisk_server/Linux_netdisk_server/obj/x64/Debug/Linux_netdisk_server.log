@@ -5,8 +5,14 @@
   正在启动远程生成
   正在编译源:
   main.cpp
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning :    51 |         res = read(accept_socket, buffer, sizeof(buffer));
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(51,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(16,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(16,19): warning :    16 |         res = read(acpt_socket, buffer, sizeof(buffer));
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(16,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(25,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(25,10): warning :    25 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(25,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(26,9): warning : unused variable ‘res’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(26,9): warning :    26 |     int res = 0;
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(26,9): warning :       |         ^~~
   正在链接对象
   Linux_netdisk_server.vcxproj -> F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\bin\x64\Debug\Linux_netdisk_server.out
