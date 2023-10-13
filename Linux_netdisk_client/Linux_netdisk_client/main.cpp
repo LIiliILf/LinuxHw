@@ -4,17 +4,22 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/stat.h>       /* mkdir */
+#include <fcntl.h>
+#include <errno.h>
 
 #define MSG_TYPE_LOGIN 0
 #define MSG_TYPE_FILENAME 1
+#define MSG_TYPE_DOWNLOAD 2
 //通讯协议的定制，两边要保持一致
 typedef struct msg{
     int type; //协议类型 0登录协议包；1文件名传输包；
     int flag; //标志位
-    char buffer[128]; //存放除文件名之外的内容
+    char buffer[1024]; //存放除文件名之外的内容
     char fname[50]; //如果type是1，文件名传输包，那么fname里面就存放着文件名
+    int bytes;  //这个字段用来记录传输文件时每个数据包实际的文件字节数
 }MSG; //这个结构体会根据业务需求的不断变化，添加新的字段
-
+int fd = 0; // 这个是用来打开文件进行读写的文件描述符。默认为0表示还没打开
 void net_disk_ui() {
     //在服务器连接成功之后调用一下
     system("clear");
@@ -38,6 +43,32 @@ void* thread_func(void* arg){
         if (recv_msg.type == MSG_TYPE_FILENAME){
             printf("filename:%s \n", recv_msg.fname);
             memset(&recv_msg, 0, sizeof(MSG));
+        }
+        else if (recv_msg.type == MSG_TYPE_DOWNLOAD)  {  //说明服务器端发过来的一定是文件，做好接收准备
+            //1.要下载到哪个目录下，用mkdir()创建一个目录download
+            if (mkdir("download", S_IRWXU) < 0){
+                if (errno != EEXIST) {
+                    perror("mkdir error");
+                }
+            }
+            //2.创建目录后，开始创建文件
+            if (fd == -1){ //表示文件还没打开过
+                fd = open("./download/1.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);//打开成功后    // O_CREATE表示这个文件不存在，要重新创建
+                if (fd < 0){
+                    perror("file open error");
+                }
+            }
+            //通过上面的创建目录，以及文件描述符的判断通过后就可以从MSG结构体里面的buffer部分取数据
+            res = write(fd, recv_msg.buffer, recv_msg.bytes);            //recv_msg.buffer存放的是文件的部分内容，recv_msg.bytes是这个部分文件的字节数
+            if (res < 0){
+                perror("file write error");
+            }
+            //那么如何判断文件内容都全部发完了呢 可以通过recv_msg_bytes 如果小于recv_buffer的1024说明发完了
+            if (recv_msg.bytes < sizeof(recv_msg.buffer)){
+                printf("file download finish\n");
+                close(fd);
+                fd = -1;
+            }
         }
     }
 }
@@ -80,6 +111,12 @@ int main(){
             memset(&send_msg, 0, sizeof(MSG));
             break;
         case '2':
+            send_msg.type = MSG_TYPE_DOWNLOAD;
+            res = write(client_socket, &send_msg, sizeof(MSG));
+            if (res < 0){
+                perror("send msg error:");
+            }
+            memset(&send_msg, 0, sizeof(MSG));
             break;
         case '3':
             break;

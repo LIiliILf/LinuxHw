@@ -6,15 +6,19 @@
 #include <string.h>
 #include <pthread.h>            /* thread */
 #include <dirent.h>             /* opendir */
+#include <sys/stat.h>           /* open */
+#include <fcntl.h>
 
 #define MSG_TYPE_LOGIN 0
 #define MSG_TYPE_FILENAME 1
+#define MSG_TYPE_DOWNLOAD 2
 //通讯协议的定制，两边要保持一致
 typedef struct msg {
-    int type; //协议类型 0登录协议包；1文件名传输包；
+    int type; //协议类型 0登录协议包；1文件名传输包；2文件下载包
     int flag; //标志位
-    char buffer[128]; //存放除文件名之外的内容
+    char buffer[1024]; //存放除文件名之外的内容
     char fname[50]; //如果type是1，文件名传输包，那么fname里面就存放着文件名
+    int bytes;  //这个字段用来记录传输文件时每个数据包实际的文件字节数
 }MSG; //这个结构体会根据业务需求的不断变化，添加新的字段
 
 void search_server_dir(int accept_socket){//把套接字作为参数传进来
@@ -27,13 +31,11 @@ void search_server_dir(int accept_socket){//把套接字作为参数传进来
         perror("open dir error:");
         return;
     }
-
     while (1){
         dir = readdir(dp);
         if (NULL == dir){ //如果返回空值，表示目录全部读取完成。
             break;
         }
-
         if (dir->d_name[0] != '.'){ //把.隐藏文件屏蔽
             memset(info_msg.fname, 0, sizeof(info_msg.fname));  //处理前先清空一下
             strcpy(info_msg.fname, dir->d_name); //d_name拷贝到fname 
@@ -43,6 +45,28 @@ void search_server_dir(int accept_socket){//把套接字作为参数传进来
                 return;
             }
         }
+    }
+}
+//download通过打开服务器中的某个文件，并使用socket网络发送给客户端，先把文件定为1.txt
+void server_file_download(int accept_socket){
+    MSG file_msg = { 0 };
+    int res = 0;
+    int fd;//文件描述符，linux系统下很重要的概念，linux认为所有设备都是文件，所有都通过文件描述符打开。文件的打开、对设备的读写
+    fd = open("/home/linux/1.txt", O_RDONLY);//man open
+    if (fd < 0) {
+        perror("file open error");
+        return;
+    }
+    file_msg.type = MSG_TYPE_DOWNLOAD;
+    strcpy(file_msg.fname, "1.txt");
+    //在读取文件并把文件传到客户端的时候，MSG结构体中的buffer就是存放文件的内容，但是一般来说文件都超过1024字节 所以要发送多个包。
+    while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0) {// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
+        file_msg.bytes = res;        //res 是实际读取的文件字节数
+        write(accept_socket, &file_msg, sizeof(MSG));
+        if (res <= 0){
+            perror("server send file error");
+        }
+        memset(file_msg.buffer, 0, sizeof(file_msg.buffer));
     }
 }
 
@@ -62,6 +86,10 @@ void* thread_fun(void* arg){
             search_server_dir(acpt_socket);
             memset(&recv_msg, 0, sizeof(MSG));
         }
+        else if (recv_msg.type == MSG_TYPE_DOWNLOAD){
+            server_file_download(acpt_socket);
+            memset(&recv_msg, 0, sizeof(MSG));
+        }
         memset(&recv_msg, 0, sizeof(MSG));
     }
 }
@@ -78,7 +106,6 @@ int main(){
         perror("socket create error");
         return 0;
     }
-    
     //2.告诉服务器ip地址和端口号。
     struct sockaddr_in server_addr;     //IPv4套接口地址数据结构
     server_addr.sin_family = AF_INET;
@@ -86,19 +113,16 @@ int main(){
     server_addr.sin_port = htons(6666);//通过网络地址转换协议htons,把主机字节顺序转换成网络字节顺序
     int optvalue = 1;
     setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &optvalue, sizeof(optvalue));   //端口复用
-    
     //3.用bind()将ip地址和端口号绑定到server_socket描述符
     if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0){
         perror("server bind error:");
         return 0;
     }
-    
     //4.调用listen监听程序 
     if (listen(server_socket, 10) < 0){
         perror("server listen error:");
         return 0;
     }
-    
     //5. 等待客户端连接 调用accept()接收客户端的连接请求
     /*当我们程序调用这个函数时，如果没有客户端连接到服务器上那么这个函数将阻塞。
      直到有客户端连接到服务器上，解除阻塞并返回一个新的套接字描述符，那么后期和客户端的通讯都交给这个新的套接字描述符来负责*/
