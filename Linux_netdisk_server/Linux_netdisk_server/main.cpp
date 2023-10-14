@@ -12,6 +12,8 @@
 #define MSG_TYPE_LOGIN 0
 #define MSG_TYPE_FILENAME 1
 #define MSG_TYPE_DOWNLOAD 2
+#define MSG_TYPE_UPLOAD 3
+#define MSG_TYPE_UPLOAD_DATA 4
 //通讯协议的定制，两边要保持一致
 typedef struct msg {
     int type; //协议类型 0登录协议包；1文件名传输包；2文件下载包
@@ -27,6 +29,7 @@ void search_server_dir(int accept_socket){//把套接字作为参数传进来
     int res = 0;
     DIR* dp = opendir("/home/linux");    //opendir是打开linux目录的api函数
     info_msg.type = MSG_TYPE_FILENAME;
+    printf("文件目录发送完成\n");
     if (NULL == dp){
         perror("open dir error:");
         return;
@@ -52,13 +55,13 @@ void server_file_download(int accept_socket){
     MSG file_msg = { 0 };
     int res = 0;
     int fd;//文件描述符，linux系统下很重要的概念，linux认为所有设备都是文件，所有都通过文件描述符打开。文件的打开、对设备的读写
-    fd = open("/home/linux/1.txt", O_RDONLY);//man open
+    fd = open("/home/linux/testdownload.txt", O_RDONLY);//man open
     if (fd < 0) {
         perror("file open error");
         return;
     }
     file_msg.type = MSG_TYPE_DOWNLOAD;
-    strcpy(file_msg.fname, "1.txt");
+    strcpy(file_msg.fname, "testdownload.txt");
     //在读取文件并把文件传到客户端的时候，MSG结构体中的buffer就是存放文件的内容，但是一般来说文件都超过1024字节 所以要发送多个包。
     while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0) {// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
         file_msg.bytes = res;        //res 是实际读取的文件字节数
@@ -70,11 +73,13 @@ void server_file_download(int accept_socket){
     }
 }
 
-/*原来用buffer换成用结构体*/
+/*原来用buffer 改成用结构体*/
 void* thread_fun(void* arg){
     int acpt_socket = *((int*)arg);     //accpet传递过来后，需要把它取出来,强制转换成指针
     int res;
     char buffer[50] = { 0 };
+    int fd = -1;    // 文件描述符
+    char up_file_name[20] = { 0 };
     MSG recv_msg = { 0 };   //从buffer缓冲区转换成结构体大小
     while (1){
         res = read(acpt_socket, &recv_msg, sizeof(MSG));
@@ -90,6 +95,27 @@ void* thread_fun(void* arg){
             server_file_download(acpt_socket);
             memset(&recv_msg, 0, sizeof(MSG));
         }
+        else if (recv_msg.type == MSG_TYPE_UPLOAD) { //准备接收客户端发来的文件数据
+            //要从数据包的文件名里面获取文件名信息，然后创建文件，放到默认创建的文件夹，在home目录下。
+            strcpy(up_file_name, recv_msg.fname);
+            //然后在home目录下创建文件
+            fd = open("/home/linux/testupload.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
+            if (fd < 0){
+                perror("create uploadfile error");
+            }
+            //server_file_upload(acpt_socket);
+            //memset(&recv_msg, 0, sizeof(MSG));
+        }
+        else if (recv_msg.type == MSG_TYPE_UPLOAD_DATA) {
+            res = write(fd, recv_msg.buffer, recv_msg.bytes);   //从buffer中写出来,写的字节数是recv_msg.bytes
+            if (recv_msg.bytes < sizeof(recv_msg.buffer)) { //最后一部分数据
+                printf("client upload file completed\n");
+                close(fd);
+                fd = -1;
+            }
+            memset(&recv_msg, 0, sizeof(MSG));
+        }
+
         memset(&recv_msg, 0, sizeof(MSG));
     }
 }

@@ -5,26 +5,32 @@
   正在启动远程生成
   正在编译源:
   main.cpp
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(42,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(42,24): warning :    42 |             res = write(accept_socket, &info_msg, sizeof(MSG));   //把每个文件名拷贝到info_msg结构体中，通过套接字发送出去
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(42,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(63,23): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(63,23): warning :    63 |     while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0) {// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(63,23): warning :       |                   ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,19): warning :    80 |         res = read(acpt_socket, &recv_msg, sizeof(MSG));
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(77,10): warning : unused variable ‘buffer’ [-Wunused-variable]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(77,10): warning :    77 |     char buffer[50] = { 0 };
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(77,10): warning :       |          ^~~~~~
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(95,1): warning : no return statement in function returning non-void [-Wreturn-type]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(95,1): warning :    95 | }
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(95,1): warning :       | ^
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(97,10): warning : unused variable ‘buffer’ [-Wunused-variable]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(97,10): warning :    97 |     char buffer[50] = { 0 };
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(97,10): warning :       |          ^~~~~~
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(98,9): warning : unused variable ‘res’ [-Wunused-variable]
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(98,9): warning :    98 |     int res = 0;
-F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(98,9): warning :       |         ^~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(45,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(45,24): warning :    45 |             res = write(accept_socket, &info_msg, sizeof(MSG));   //把每个文件名拷贝到info_msg结构体中，通过套接字发送出去
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(45,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(66,23): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(66,23): warning :    66 |     while ((res = read(fd, file_msg.buffer, sizeof(file_msg.buffer))) > 0) {// 当read用于读取文件的时候,每次读到文件末尾之后将返回小于0
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(66,23): warning :       |                   ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(85,19): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(85,19): warning :    85 |         res = read(acpt_socket, &recv_msg, sizeof(MSG));
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(85,19): warning :       |               ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(110,24): warning : conversion from ‘ssize_t’ {aka ‘long int’} to ‘int’ may change value [-Wconversion]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(110,24): warning :   110 |             res = write(fd, recv_msg.buffer, recv_msg.bytes);   //从buffer中写出来,写的字节数是recv_msg.bytes
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(110,24): warning :       |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(111,32): warning : comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(111,32): warning :   111 |             if (recv_msg.bytes < sizeof(recv_msg.buffer)) { //最后一部分数据
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(111,32): warning :       |                 ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,10): warning :    80 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(80,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(121,1): warning : no return statement in function returning non-void [-Wreturn-type]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(121,1): warning :   121 | }
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(121,1): warning :       | ^
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(123,10): warning : unused variable ‘buffer’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(123,10): warning :   123 |     char buffer[50] = { 0 };
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(123,10): warning :       |          ^~~~~~
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(124,9): warning : unused variable ‘res’ [-Wunused-variable]
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(124,9): warning :   124 |     int res = 0;
+F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\main.cpp(124,9): warning :       |         ^~~
   正在链接对象
   Linux_netdisk_server.vcxproj -> F:\linux_repo\Linux_netdisk_server\Linux_netdisk_server\bin\x64\Debug\Linux_netdisk_server.out
